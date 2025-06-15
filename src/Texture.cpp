@@ -7,12 +7,11 @@ Texture::Texture()
 
 void Texture::loadFromFile()
 {
-	for (int i = 0; i < 10; i++) // Example: Load 10 textures
-	{
-		textureFiles.push_back("face"+ std::to_string(i + 1));
-	}
-	textureFiles.push_back("board");
-	textureFiles.push_back("i"); 
+	 
+	textureFiles.push_back("face1");
+ 
+	textureFiles.push_back("grass");
+
 	for (int i=0;i< textureFiles.size();i++)
 	{
 		sf::Texture texture;

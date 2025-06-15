@@ -2,13 +2,22 @@
 #include <string>
  
 Game::Game()
-	: m_high(600), m_width(800), m_texture(), m_snake(m_texture.getTexture(ID::face10)), m_board(m_texture.getTexture(ID::board)),
-	m_startButton(m_texture.getTexture(ID::startButton))    
+	: m_high(600), m_width(800), m_texture(), m_snake(m_texture.getTexture(ID::face1)), m_board(m_texture.getTexture(ID::grass))
+	   
 {
 	m_startButton.setPosition(m_width / 2 - m_startButton.getGlobalBounds().width / 2, m_high / 2 - m_startButton.getGlobalBounds().height / 2);
 	//createStartWindow();
 	createWindow();
  
+	run();
+}
+//=====================================
+Game::Game(float playerSpeed)
+	: m_high(600), m_width(800), m_texture(), m_snake(m_texture.getTexture(ID::face1)), m_board(m_texture.getTexture(ID::grass))
+{
+	// שמור את המהירות או תעביר אותה הלאה
+	m_snake.setSpeed(playerSpeed);
+	createWindow();
 	run();
 }
 
@@ -65,7 +74,7 @@ void Game::render()
 {
 	m_window.clear(sf::Color::Black); 
 	
-	//m_board.draw(m_window);  
+	m_board.draw(m_window);  
 	m_snake.draw(m_window); 
 	
 	m_window.display(); 

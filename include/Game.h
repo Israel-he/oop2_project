@@ -14,6 +14,7 @@ class Game
 public:
 
 	Game();
+	Game(float playerSpeed);
 	void createStartWindow();
 	void createWindow();
 	void loadTextures();

@@ -4,10 +4,9 @@
 GameObject::GameObject(sf::Texture& texture)
 	:m_position(110.0f, 110.0f), m_texture(texture)
 {
-	m_sprite.setTexture(m_texture); 
+	m_sprite.setTexture(texture); 
 	m_sprite.setPosition(m_position); 
 	
-
 }
 
 //==========setPosition==========

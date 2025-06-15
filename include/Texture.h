@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <map>
@@ -15,5 +16,5 @@ private:
 	std::map<std::string, sf::Texture> m_textureMap; // Map to hold textures by name
 
 	std::vector<std::string> textureFiles;
-	std::string end = ".jpg"; // File extension for textures
+	std::string end = ".png"; // File extension for textures
  };
