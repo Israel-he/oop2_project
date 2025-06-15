@@ -26,6 +26,7 @@ private:
 
 	sf::RenderWindow m_startWindow;
 	sf::RenderWindow m_window;
+	sf::View m_view;
 	int m_high;                
 	int m_width;
 	Texture m_texture;
@@ -35,4 +36,5 @@ private:
 	float m_deltaTime = 0.0f;
 	sf::Sprite m_startButton;  
 	
+
 };

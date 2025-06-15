@@ -2,7 +2,7 @@
 
 
 Menu::Menu(sf::RenderWindow& window)
-    : m_window(window), m_selectedSpeedIndex(0), m_speedValues{ 40.f, 60.f, 100.f }
+    : m_window(window), m_selectedSpeedIndex(0), m_speedValues{ 180.f, 200.f, 280.f }
 {
     m_font.loadFromFile("C:/Windows/Fonts/arial.ttf");
 

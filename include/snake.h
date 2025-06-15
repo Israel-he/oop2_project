@@ -19,7 +19,7 @@ public:
 private:
     float m_speed;
     float m_countTime = 0.0f;
-    float m_changeTime = 1.f; // זמן בין שינויי ספרייט
+    float m_changeTime = 0.09f; // זמן בין שינויי ספרייט
 
     sf::Vector2f m_direction;
     int m_rotation = 0;

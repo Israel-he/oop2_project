@@ -102,6 +102,7 @@ sf::Vector2f snake::getPosition()
 void snake::setSpeed(float speed)
 {
     m_speed = speed;
+    setSpacing();
 }
 
 void snake::addBodyPart(sf::Texture& texture)
@@ -116,6 +117,19 @@ void snake::addBodyPart(sf::Texture& texture)
 //========setSpacing==========
 void snake::setSpacing()
 {
+    if (m_speed == 280.f)
+    {
+		m_spacing = 7; // מרחק בין חוליות מהירות
+	}
+	else if (m_speed == 200.f)
+	{
+		m_spacing = 9; // מרחק בין חוליות בינונית
+	}
+    else
+    {
+        m_spacing = 12; // מרחק בין חוליות איטיות
+    }
+     
 }
 
 
