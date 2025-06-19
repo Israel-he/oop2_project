@@ -4,8 +4,8 @@ class MovingObject :public GameObject
 {
 public:
 
-	MovingObject(sf::Texture& texture);
-
+	MovingObject(sf::Texture& texture, sf::Vector2f& position);
+	 
 	virtual void move(float deltaTime) = 0; // Pure virtual function for moving the object
 	 
 protected:

@@ -1,20 +1,19 @@
 #include <string>  
 
-namespace ID
-{
-    inline std::string  face1 = "face1";
-    inline std::string  face2 = "face2";
-    inline std::string  face3 = "face3";
-    inline std::string  face4 = "face4";
-    inline std::string  face5 = "face5";
-    inline std::string  face6 = "face6";
-    inline std::string  face7 = "face7";
-    inline std::string  face8 = "face8";
-    inline std::string  face9 = "face9";
-    inline std::string  face10 = "face10";
-    inline std::string  grass = "grass";
-    inline std::string  startButton = "i";
-	inline std::string  photo = "photo";
-	inline std::string  snake = "snake";
-    //constexpr
+namespace ID  
+{  
+	//constexpr std::string grass = "grass";
+   const char WALL = '#';
+   const char FOOD = '*';
+   constexpr char PLAYER = 'P';
+   constexpr char BODY = 'B';
+   constexpr int WITH_WALL = 20;  
+   constexpr int HIGHT_WALL = 20;  
+   constexpr int WITH_FOOD = 29;
+   constexpr int HIGHT_FOOD = 28;
+   constexpr int WITH_PLAYER = 34;
+   constexpr int HIGHT_PLAYER = 54;
+   constexpr int WITH_BODY = 22;
+   constexpr int HIGHT_BODY = 40;
+   constexpr int NUM_OF_FOOD = 2;
 }

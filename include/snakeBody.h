@@ -6,13 +6,20 @@
 class snakeBody : public MovingObject
 {
 public:
-    snakeBody(sf::Texture& texture);
+    snakeBody(sf::Texture& texture, sf::Vector2f& position);
 
     void move(float deltaTime) override;
     void draw(sf::RenderWindow& window) override;
 
     void setPosition(sf::Vector2f pos);    // פונקציה להצבת מיקום
     void setRotation(float angle);         // (אופציונלי) אם תשתמש בסיבוב
+
+    //double dispatch
+    virtual void handleCollision(GameObject& gameObject) {};
+    virtual void handleCollision(snake& gameObject) {};
+    virtual void handleCollision(snakeBody& gameObject) {};
+    virtual void handleCollision(Food& gameObject) {};
+    virtual void handleCollision(Wall& gameObject) {};
 
 private:
 	sf::Vector2f m_info; // מיקום של חלק גוף הנחש

@@ -8,8 +8,7 @@ Texture::Texture()
 void Texture::loadFromFile()
 {
 	 
-	textureFiles.push_back("face1");
- 
+	textureFiles.push_back("photo");
 	textureFiles.push_back("grass");
 
 	for (int i=0;i< textureFiles.size();i++)
@@ -31,16 +30,9 @@ sf::Texture& Texture::getTexture(std::string& name)
 			return texture.second; 
 		}
 	}
-	//throw std::runtime_error("Texture not found: " + name); // Throw an error if not found
+	throw std::runtime_error("Texture not found: " + name); // Throw an error if not found
 }
 
-//==========draw==========
-void Texture::draw(sf::RenderWindow& window)
-{
-	for (auto& texture : m_textureMap) {
-		sf::Sprite sprite(texture.second);  
-		window.draw(sprite); 
-	}
-}
+ 
 
 

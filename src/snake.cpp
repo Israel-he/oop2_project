@@ -1,22 +1,23 @@
 #include "snake.h"
-
-snake::snake(sf::Texture& head)
-    : MovingObject(head), m_speed(10.0f), m_direction(0.0f, 0.0f)
+#include "io.h"
+snake::snake(sf::Texture& head, sf::Vector2f& position)
+    : MovingObject(head, position), m_speed(10.0f), m_direction(0.0f, 0.0f)
 {
     // מיקום התחלתי של הראש
-    m_sprite.setPosition(100.0f, 100.0f);
-    m_sprite.setTextureRect(sf::IntRect(14 + 34 * (m_rotation % 3), 200, 34, 54));
+   // m_sprite.setPosition(100.0f, 100.0f);
+    m_sprite.setTextureRect(sf::IntRect(14 + ID::WITH_PLAYER, 200, ID::WITH_PLAYER, ID::HIGHT_PLAYER));
     m_sprite.setOrigin(17.0f, 27.0f);
 
     // היסטוריית מיקומים - מתחיל עם מיקום הראש
     m_positionsHistory.push_back({ m_sprite.getPosition() });
+   
 
 
-    // יצירת חוליות גוף התחלתיות
-    for (int i = 0; i < m_bodyCount; ++i) {
-        m_snakeBody.push_back(snakeBody(m_texture));
-
-    }
+    //// יצירת חוליות גוף התחלתיות
+    //for (int i = 0; i < m_bodyCount; ++i)
+    //{
+    //    m_snakeBody.push_back(snakeBody(m_texture, posBody));
+    //}
 }
 
 void snake::move(float deltaTime)
@@ -89,7 +90,7 @@ void snake::draw(sf::RenderWindow& window)
 
 void snake::changeSprite()
 {
-    m_sprite.setTextureRect(sf::IntRect(14 + 34 * (m_rotation % 6), 200, 34, 54));
+    m_sprite.setTextureRect(sf::IntRect(14 + ID::WITH_PLAYER * (m_rotation % 6), 200, ID::WITH_PLAYER, ID::HIGHT_PLAYER));
     m_rotation++;
     m_sprite.setOrigin(17.0f, 27.0f);
 }
@@ -109,7 +110,7 @@ void snake::addBodyPart(sf::Texture& texture)
 {
     // הוספת חוליה חדשה לפי המיקום של האחרונה בגוף
     sf::Vector2f pos = m_snakeBody.empty() ? m_sprite.getPosition() : m_snakeBody.back().getPosition();
-    snakeBody newPart(texture);
+    snakeBody newPart(texture, posBody);
     newPart.setPosition(pos);
     m_snakeBody.push_back(newPart);
 }
@@ -120,10 +121,12 @@ void snake::setSpacing()
     if (m_speed == 280.f)
     {
 		m_spacing = 7; // מרחק בין חוליות מהירות
+		m_changeTime = 0.05f; // זמן בין שינויי ספרייט מהיר יותר
 	}
 	else if (m_speed == 200.f)
 	{
 		m_spacing = 9; // מרחק בין חוליות בינונית
+        m_changeTime = 0.07f;
 	}
     else
     {
@@ -131,6 +134,37 @@ void snake::setSpacing()
     }
      
 }
+
+//========getSnakeBodySize==========
+int snake::getSnakeBodySize() const
+{
+	return static_cast<int>(m_snakeBody.size());
+}
+//========getSnakeBody==========
+snakeBody& snake::getSnakeBody(const int index)
+{
+	return m_snakeBody.at(index);
+}
+
+
+
+
+//========handleCollision==========
+void snake::handleCollision(GameObject& gameObject)
+{
+	gameObject.handleCollision(*this);
+}
+
+//FOOD
+void snake::handleCollision(Food& gameObject)
+{
+	// הוספת חוליה חדשה לגוף הנחש
+	addBodyPart(m_texture);
+	// הסרת המזון מהמשחק
+ 
+}
+
+
 
 
 

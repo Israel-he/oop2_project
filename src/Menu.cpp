@@ -2,7 +2,7 @@
 
 
 Menu::Menu(sf::RenderWindow& window)
-    : m_window(window), m_selectedSpeedIndex(0), m_speedValues{ 180.f, 200.f, 280.f }
+    : m_window(window), m_selectedSpeedIndex(0), m_speedValues{ 180.f, 200.f, 280.f } 
 {
     m_font.loadFromFile("C:/Windows/Fonts/arial.ttf");
 
@@ -66,22 +66,39 @@ int Menu::run()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
 
-    while (window.isOpen()) {
+    while (window.isOpen())
+    {
         // --- תפריט ---
         Menu menu(window);
-        bool startGame = false;
+        m_startGame;
         float playerSpeed = 200.f; // Default
 
-        while (window.isOpen() && !startGame) {
+        while (window.isOpen() && !m_startGame) {
             sf::Event event;
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::Closed)
                     window.close();
-                menu.handleEvent(event, startGame, playerSpeed);
+                menu.handleEvent(event, m_startGame, playerSpeed);
+                if (m_startGame && event.type == sf::Event::Closed)
+                {
+					m_gameOverWindow.close();
+                }
             }
             window.clear();
             menu.draw();
             window.display();
+
+			if (m_startGame) 
+            {
+				createGameOverWindow();
+				setTextGameOver();
+			}
+            if (!m_game.isOpen() && m_startGame)
+            {
+				m_gameOverWindow.clear(sf::Color::Black);
+				m_gameOverWindow.draw(m_gameOverText);
+				m_gameOverWindow.display();
+            }
         }
 
         if (!window.isOpen())
@@ -90,8 +107,8 @@ int Menu::run()
         // --- משחק ---
         try
         {
-            Game game(playerSpeed);
-            game.run();
+            Game m_game(playerSpeed);
+            m_game.run();
         }
         catch (const std::exception& e)
         {
@@ -99,4 +116,31 @@ int Menu::run()
             return EXIT_FAILURE;
         }
     }
+}
+
+//========== createGameOverWindow ==========
+void Menu::createGameOverWindow()
+{
+    m_gameOverWindow.create(sf::VideoMode(800, 600), "Game over", sf::Style::Close | sf::Style::Resize);
+    m_gameOverWindow.setFramerateLimit(60);
+}
+
+//========== setTextGameOver ==========
+void Menu::setTextGameOver()
+{
+    if (!m_fontGameOver.loadFromFile("arial.ttf"))  // ודא שהנתיב לקובץ הפונט נכון
+    {
+        throw std::runtime_error("Failed to load font");
+    }
+
+    m_gameOverText.setFont(m_fontGameOver);
+    m_gameOverText.setString("Game Over!");
+    m_gameOverText.setCharacterSize(48);
+    m_gameOverText.setFillColor(sf::Color::Red);
+    m_gameOverText.setStyle(sf::Text::Bold);
+    m_gameOverText.setPosition(
+        m_gameOverWindow.getSize().x / 2.f - m_gameOverText.getLocalBounds().width / 2.f,
+        m_gameOverWindow.getSize().y / 2.f - m_gameOverText.getLocalBounds().height / 2.f
+    );
+
 }

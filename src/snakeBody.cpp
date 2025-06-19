@@ -1,10 +1,10 @@
 
 #include "snakeBody.h"
-
-snakeBody::snakeBody(sf::Texture& texture)
-    : MovingObject(texture), m_speed(10.0f)
+#include "io.h"
+snakeBody::snakeBody(sf::Texture& texture, sf::Vector2f& position)
+    : MovingObject(texture, position), m_speed(10.0f)
 {
-    m_sprite.setTextureRect(sf::IntRect(330, 140, 22, 38));
+    m_sprite.setTextureRect(sf::IntRect(330, 140, ID::WITH_BODY,ID::HIGHT_BODY));
     m_sprite.setOrigin(11.0f, 19.0f);
     m_sprite.setPosition(100.0f, 70.0f);
    
@@ -12,7 +12,7 @@ snakeBody::snakeBody(sf::Texture& texture)
 
 void snakeBody::move(float deltaTime)
 {
-    // אפשר לממש כאן תנועה נוספת אם תחליט להוסיף תכונות מתקדמות
+    
 }
 
 void snakeBody::draw(sf::RenderWindow& window)
