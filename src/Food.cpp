@@ -25,13 +25,34 @@ void Food::handleCollision(GameObject& gameObject)
 }
 
 //SNAKE
+//void Food::handleCollision(snake& gameObject)
+//{
+//	if (m_sprite.getGlobalBounds().intersects(gameObject.getSprite().getGlobalBounds()))
+//	{
+//		gameObject.handleCollision(*this);
+//		m_isEaten = true; // סימון שהאוכל נאכל
+//	}
+//
+//	return;
+//}
+
+
 void Food::handleCollision(snake& gameObject)
 {
-	if (m_sprite.getGlobalBounds().intersects(gameObject.getSprite().getGlobalBounds()))
-	{
-		gameObject.handleCollision(*this);
-		m_isEaten = true; // סימון שהאוכל נאכל
-	}
+    sf::FloatRect foodRect = m_sprite.getGlobalBounds();
+    sf::FloatRect headRect = gameObject.getSprite().getGlobalBounds();
 
-	return;
+    sf::FloatRect intersection;
+    if (foodRect.intersects(headRect, intersection))
+    {
+        float headArea = headRect.width * headRect.height;
+        float intersectionArea = intersection.width * intersection.height;
+
+        // Check if at least 30% of the head overlaps with the food
+        if (intersectionArea >= 0.2f * headArea)
+        {
+            gameObject.handleCollision(*this);
+            m_isEaten = true; // סימון שהאוכל נאכל
+        }
+    }
 }

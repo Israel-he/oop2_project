@@ -18,11 +18,11 @@ public:
     void setSpacing();
 	snakeBody& getSnakeBody(const int index);
     int getSnakeBodySize() const;
-
+	std::vector<snakeBody>& getSnakeBodyVector(); // מחזיר את הווקטור של גוף הנחש
     //double dispatch
     virtual void handleCollision(GameObject& gameObject);
     virtual void handleCollision(snake& gameObject) {};
-    virtual void handleCollision(snakeBody& gameObject) {};
+    virtual void handleCollision(snakeBody& gameObject);
     virtual void handleCollision(Food& gameObject);
     virtual void handleCollision(Wall& gameObject) {};
 

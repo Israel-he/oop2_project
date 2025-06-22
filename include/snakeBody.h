@@ -13,10 +13,10 @@ public:
 
     void setPosition(sf::Vector2f pos);    // פונקציה להצבת מיקום
     void setRotation(float angle);         // (אופציונלי) אם תשתמש בסיבוב
-
+	void setIsMove(bool isMove) { m_isMove = isMove; } // פונקציה להצבת מצב תנועה
     //double dispatch
-    virtual void handleCollision(GameObject& gameObject) {};
-    virtual void handleCollision(snake& gameObject) {};
+    virtual void handleCollision(GameObject& gameObject);
+    virtual void handleCollision(snake& gameObject);
     virtual void handleCollision(snakeBody& gameObject) {};
     virtual void handleCollision(Food& gameObject) {};
     virtual void handleCollision(Wall& gameObject) {};
@@ -24,6 +24,7 @@ public:
 private:
 	sf::Vector2f m_info; // מיקום של חלק גוף הנחש
 	float m_speed;        // מהירות תנועת חלק גוף הנחש
+	bool m_isMove = false; // האם החלק בתנועה
 };
 
 

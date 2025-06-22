@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Game.h"
 
+static bool m_gameOverWindowOpen = false; // Global variable to track if the game over window is open
+
 class Menu {
 public:
 
@@ -14,8 +16,7 @@ public:
     int run();
 	 
 
-    void createGameOverWindow();
-    void setTextGameOver();
+    
 
 private:
     sf::RenderWindow& m_window;
@@ -25,10 +26,7 @@ private:
     std::vector<sf::Text> m_speedOptions;
     int m_selectedSpeedIndex;
     std::vector<float> m_speedValues;
-    bool m_startGame = false;
-    Game m_game;
-    //game over window
-    sf::RenderWindow m_gameOverWindow;
-    sf::Font m_fontGameOver;
-    sf::Text m_gameOverText;
+   
+    
+ 
 };

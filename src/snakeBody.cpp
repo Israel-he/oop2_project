@@ -1,6 +1,6 @@
-
 #include "snakeBody.h"
 #include "io.h"
+#include "snake.h"
 snakeBody::snakeBody(sf::Texture& texture, sf::Vector2f& position)
     : MovingObject(texture, position), m_speed(10.0f)
 {
@@ -30,57 +30,33 @@ void snakeBody::setRotation(float angle)
     m_sprite.setRotation(angle);
 }
 
+//========== handleCollision ==========
+void snakeBody::handleCollision(GameObject& gameObject)
+{
+}
+
+//snake
+void snakeBody::handleCollision(snake& gameObject)
+{
+     //Get the bounding rectangles
+    sf::FloatRect bodyRect = m_sprite.getGlobalBounds();
+    sf::FloatRect headRect = gameObject.getSprite().getGlobalBounds();
+
+     //Calculate intersection rectangle
+    sf::FloatRect intersection;
+    if (bodyRect.intersects(headRect, intersection))
+    {
+        // Calculate areas
+        float headArea = headRect.width * headRect.height;
+        float intersectionArea = intersection.width * intersection.height;
+
+        // Check if more than 50% of the head overlaps with the body
+        if (intersectionArea >= 0.4f * headArea && m_isMove)
+        {
+            gameObject.setIsDead(true); // Mark snake as dead
+        }
+    }
+}
 
 
-
-
-
-
-
-
-
-
-
-
-//#include "snakeBody.h"
-//
-//snakeBody::snakeBody(sf::Texture& texture)
-//	:MovingObject(texture), m_speed(10.0f)
-//{
-//	//m_sprite.setTexture(texture);
-//
-//	m_sprite.setPosition(100.0f, 70.0f);
-//	 
-//	m_sprite.setTextureRect(sf::IntRect(330 , 140, 22, 38)); // Set the texture rectangle for the sprite
-//	m_sprite.setOrigin(11.0f, 19.0f); // Set the origin for rotation and scaling
-//}
-//
-////==============move==========
-//void snakeBody::move(float deltaTime)
-//{
-//	if (m_direction.y == -1)
-//		m_sprite.setRotation(0.f); // Up
-//	else if (m_direction.y == 1)
-//		m_sprite.setRotation(180.f); // Down
-//	else if (m_direction.x == -1)
-//		m_sprite.setRotation(90.f); // Left
-//	else if (m_direction.x == 1)
-//		m_sprite.setRotation(270.f); // Right
-//	m_sprite.setPosition(m_position);
-//	m_sprite.move(m_info);
-//}
-//
-//
-////==============draw==========
-//void snakeBody::draw(sf::RenderWindow& window)
-//{
-//// Ensure the sprite is at the correct position before drawing
-//	window.draw(m_sprite); 
-//}
-//
-////==============getPosition==========
-//void snakeBody::getInfo(sf::Vector2f& info)
-//{
-//	m_info = info;
-//}
-//
+ 

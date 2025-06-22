@@ -70,7 +70,7 @@ int Menu::run()
     {
         // --- תפריט ---
         Menu menu(window);
-        m_startGame;
+        bool m_startGame = false;
         float playerSpeed = 200.f; // Default
 
         while (window.isOpen() && !m_startGame) {
@@ -79,26 +79,15 @@ int Menu::run()
                 if (event.type == sf::Event::Closed)
                     window.close();
                 menu.handleEvent(event, m_startGame, playerSpeed);
-                if (m_startGame && event.type == sf::Event::Closed)
-                {
-					m_gameOverWindow.close();
-                }
+                 
             }
-            window.clear();
-            menu.draw();
-            window.display();
-
-			if (m_startGame) 
+            if (!m_gameOverWindowOpen)
             {
-				createGameOverWindow();
-				setTextGameOver();
-			}
-            if (!m_game.isOpen() && m_startGame)
-            {
-				m_gameOverWindow.clear(sf::Color::Black);
-				m_gameOverWindow.draw(m_gameOverText);
-				m_gameOverWindow.display();
+                window.clear();
+                menu.draw();
+                window.display();
             }
+           
         }
 
         if (!window.isOpen())
@@ -118,29 +107,6 @@ int Menu::run()
     }
 }
 
-//========== createGameOverWindow ==========
-void Menu::createGameOverWindow()
-{
-    m_gameOverWindow.create(sf::VideoMode(800, 600), "Game over", sf::Style::Close | sf::Style::Resize);
-    m_gameOverWindow.setFramerateLimit(60);
-}
 
-//========== setTextGameOver ==========
-void Menu::setTextGameOver()
-{
-    if (!m_fontGameOver.loadFromFile("arial.ttf"))  // ודא שהנתיב לקובץ הפונט נכון
-    {
-        throw std::runtime_error("Failed to load font");
-    }
 
-    m_gameOverText.setFont(m_fontGameOver);
-    m_gameOverText.setString("Game Over!");
-    m_gameOverText.setCharacterSize(48);
-    m_gameOverText.setFillColor(sf::Color::Red);
-    m_gameOverText.setStyle(sf::Text::Bold);
-    m_gameOverText.setPosition(
-        m_gameOverWindow.getSize().x / 2.f - m_gameOverText.getLocalBounds().width / 2.f,
-        m_gameOverWindow.getSize().y / 2.f - m_gameOverText.getLocalBounds().height / 2.f
-    );
-
-}
+ 

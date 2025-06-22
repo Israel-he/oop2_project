@@ -18,10 +18,12 @@ public:
 	void createWindow();
 	void getTexGrassTexture(sf::Texture& texture);
 	void getTexPhotoTexture(sf::Texture& texture);
-	
+	void createGameOverWindow();
+	void setTextGameOver();
 	void loadTextures();
 	void run();
 	void handleEndChkCollisions(GameObject& gameObject);
+	void snakeIsDead();
 	sf::Vector2f getValidFoodPosition();
 	void update();
 	void render();
@@ -36,8 +38,10 @@ private:
 	int m_high;                
 	int m_width;
 	
-	
-
+	//game over window
+	sf::RenderWindow m_gameOverWindow;
+	sf::Font m_fontGameOver;
+	sf::Text m_gameOverText;
 
 	ReadFromFile m_readFromFile;
 

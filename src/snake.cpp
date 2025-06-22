@@ -66,7 +66,7 @@ void snake::move(float deltaTime)
             sf::Vector2f prev = m_positionsHistory[prevIndex].position;
 
             m_snakeBody[i].setPosition(current);
-
+			m_snakeBody[i].setIsMove(true);
             sf::Vector2f delta = current - prev;
             float angle = std::atan2(delta.y, delta.x) * 180.f / 3.14159f;
 
@@ -106,6 +106,7 @@ void snake::setSpeed(float speed)
     setSpacing();
 }
 
+
 void snake::addBodyPart(sf::Texture& texture)
 {
     // הוספת חוליה חדשה לפי המיקום של האחרונה בגוף
@@ -130,7 +131,7 @@ void snake::setSpacing()
 	}
     else
     {
-        m_spacing = 12; // מרחק בין חוליות איטיות
+        m_spacing = 13; // מרחק בין חוליות איטיות
     }
      
 }
@@ -140,6 +141,13 @@ int snake::getSnakeBodySize() const
 {
 	return static_cast<int>(m_snakeBody.size());
 }
+
+//========getSnakeBodyVector==========
+std::vector<snakeBody>& snake::getSnakeBodyVector()
+{
+	return m_snakeBody;
+}
+
 //========getSnakeBody==========
 snakeBody& snake::getSnakeBody(const int index)
 {
@@ -153,6 +161,12 @@ snakeBody& snake::getSnakeBody(const int index)
 void snake::handleCollision(GameObject& gameObject)
 {
 	gameObject.handleCollision(*this);
+}
+
+//snakeBody
+void snake::handleCollision(snakeBody& gameObject)
+{
+    gameObject.handleCollision(*this);
 }
 
 //FOOD
