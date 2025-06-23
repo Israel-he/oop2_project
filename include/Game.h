@@ -5,9 +5,8 @@
 #include <SFML/Network.hpp>   // For networking features
 #include <random>
 #pragma once
-//#include "snake.h"
-//#include "Board.h"
- 
+#include "GameOver.h"
+#include "Score.h"
 #include "ReadFromFile.h"
 class Game
 {
@@ -18,7 +17,7 @@ public:
 	void createWindow();
 	void getTexGrassTexture(sf::Texture& texture);
 	void getTexPhotoTexture(sf::Texture& texture);
-	void createGameOverWindow();
+	//void createGameOverWindow();
 	void setTextGameOver();
 	void loadTextures();
 	void run();
@@ -29,7 +28,7 @@ public:
 	void render();
 	void draw();
 	bool isOpen() const { return m_window.isOpen(); }
-
+	
 private:
 
 	//game window
@@ -37,23 +36,25 @@ private:
 	sf::View m_view;
 	int m_high;                
 	int m_width;
-	
-	//game over window
-	sf::RenderWindow m_gameOverWindow;
-	sf::Font m_fontGameOver;
-	sf::Text m_gameOverText;
 
+	//game over window
+	std::string m_txtGameOver = "Game Over!!";
+	GameOver m_gameOver; // חלון סיום המשחק
+ 
 	ReadFromFile m_readFromFile;
 
+	//Score
+	Score m_score; // ניהול הניקוד
 	//Objects
 	std::unique_ptr<snake> m_snake; 
 	std::vector<std::unique_ptr<GameObject>> m_walls; // קירות או אובייקטים שאינם נעים
 	std::vector<std::unique_ptr<GameObject>> m_foods; // מזון
+
 	//Board m_board;  
 	sf::Clock m_clock; 
 	float m_deltaTime = 0.0f;
 	sf::Sprite m_startButton;  
 	sf::Sprite m_grassSprite;
-	 sf::Texture m_PhotoSprite;
+	sf::Texture m_PhotoSprite;                              
 	sf::Vector2f m_posOfNewFood; // מיקום מזון חדש
 };

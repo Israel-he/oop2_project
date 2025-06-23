@@ -16,4 +16,5 @@ namespace ID
    constexpr int WITH_BODY = 22;
    constexpr int HIGHT_BODY = 40;
    constexpr int NUM_OF_FOOD = 2;
+   constexpr int POINTS_PER_FOOD = 10; // נקודות עבור כל מזון שנאכל
 }
