@@ -6,6 +6,7 @@
 #include "Wall.h"
 #include "Food.h"
 #include "snake.h"
+#include "extraFood.h"
 ReadFromFile::ReadFromFile(const std::string& filename)
 {
     m_photoTex.loadFromFile("photo.png");
@@ -44,6 +45,10 @@ void ReadFromFile::loadFromFile(const std::string& filename)
 			m_position = sf::Vector2f(col * 29, row * 28);
             m_foods.push_back(std::make_unique<Food>(m_photoTex, m_position));
             break;
+		case ID::E_FOOD:
+			m_position = sf::Vector2f(col * 29, row * 28);
+			m_foods.push_back(std::make_unique<extraFood>(m_photoTex, m_position));
+			break;
         case '\n':
             col = 0;
             row++;

@@ -178,6 +178,12 @@ void snake::handleCollision(Food& gameObject)
  
 }
 
+//handleCollision
+void snake::handleCollision(extraFood& gameObject)
+{
+    addBodyPart(m_texture);
+}
+
 
 
 

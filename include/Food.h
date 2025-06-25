@@ -15,6 +15,7 @@ public:
 	virtual void handleCollision(snakeBody& gameObject) {};
 	virtual void handleCollision(Food& gameObject) {};
 	virtual void handleCollision(Wall& gameObject) {};
+	virtual void handleCollision(extraFood& gameObject) {};
 
 private:
 	bool m_isEaten = false;

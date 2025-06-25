@@ -8,6 +8,7 @@
 #include "GameOver.h"
 #include "Score.h"
 #include "ReadFromFile.h"
+
 class Game
 {
 public:
@@ -20,6 +21,7 @@ public:
 	//void createGameOverWindow();
 	void setTextGameOver();
 	void loadTextures();
+	void updateEfood(float deltaTime);
 	void run();
 	void handleEndChkCollisions(GameObject& gameObject);
 	void snakeIsDead();
@@ -57,4 +59,5 @@ private:
 	sf::Sprite m_grassSprite;
 	sf::Texture m_PhotoSprite;                              
 	sf::Vector2f m_posOfNewFood; // מיקום מזון חדש
+	int m_numOfFood = 0; // מספר המזון שנאכל
 };

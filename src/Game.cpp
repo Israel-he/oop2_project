@@ -2,7 +2,7 @@
 #include <string>
 #include <algorithm> // std::min, std::max
 #include "Menu.h"
-
+#include "extraFood.h"
 //========== Constructor with speed ==========
 Game::Game(float playerSpeed)
     :m_high(600), m_width(800),
@@ -13,6 +13,7 @@ Game::Game(float playerSpeed)
 	m_snake = m_readFromFile.extractSnake();  
 	m_walls = m_readFromFile.getWalls();
 	m_foods = m_readFromFile.getFood();
+	m_numOfFood = m_foods.size(); // עדכון מספר המזון שנאכל
     getTexGrassTexture(m_readFromFile.getGrassTexture());
 	getTexPhotoTexture(m_readFromFile.getPhotoTexture());
 
@@ -52,6 +53,14 @@ void Game::loadTextures()
     // לא בשימוש כרגע
 }
 
+//========== updateEfood ==========
+void Game::updateEfood(float deltaTime)
+{
+    for (int i = 0; i < m_foods.size(); i++)
+    {
+        m_foods[i]->update(deltaTime); // עדכון מזון נוסף
+    }
+}
 //========== run ==========
 void Game::run()
 {
@@ -68,11 +77,12 @@ void Game::run()
             }
 
         }
-
+       
         m_snake->move(m_deltaTime);
         handleEndChkCollisions(*m_snake);
         update();
         render();
+		updateEfood(m_deltaTime); // עדכון מזון נוסף
     }
     while (m_gameOver.isOpen())
     {
@@ -115,18 +125,41 @@ void Game::handleEndChkCollisions(GameObject& snake)
 			 
 		}
 	}
+    for (auto& food : m_foods)
+    {
+        if (food->getIsEatenExtra()) // אם האוכל נאכל, הוסף ניקוד
+        {
+            m_score.addPoints(ID::POINTS_PER_E_FOOD);
+
+        }
+    }
+
+    std::erase_if(m_foods, [](auto& object)
+        {
+            return object->getDeleteFoodOverTime();
+        });
+
     std::erase_if(m_foods, [](auto& object)
         {
             return object->getIsEaten();
         });
+  
 
     if (m_foods.size() <= ID::NUM_OF_FOOD)
     {
         m_posOfNewFood = getValidFoodPosition();
-        m_foods.push_back(std::make_unique<Food>(m_PhotoSprite, m_posOfNewFood));
+		if (m_numOfFood % 3 == 0) // כל 3 מזונות, הוסף מזון נוסף
+		{
+			m_foods.push_back(std::make_unique<extraFood>(m_PhotoSprite, m_posOfNewFood));
+		}
+		else
+		{
+			m_foods.push_back(std::make_unique<Food>(m_PhotoSprite, m_posOfNewFood));
+		}
+        m_numOfFood++;
     }
-    // בדוק אם הנחש פוגע בעצמו
 
+    // בדוק אם הנחש פוגע בעצמו
     int sizeOfSnake = m_snake->getSnakeBodySize();
 
     for (int i = 0; i < sizeOfSnake; ++i)
@@ -188,6 +221,7 @@ sf::Vector2f Game::getValidFoodPosition() {
 //========== update ==========
 void Game::update()
 {
+     
     // קבל גודל התצוגה (VIEW)
     sf::Vector2f viewSize = m_view.getSize();
     float halfW = viewSize.x / 2.f;

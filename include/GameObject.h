@@ -4,6 +4,8 @@ class snake;
 class snakeBody;
 class Food;
 class Wall;
+class extraFood;
+
 
 class GameObject {
 public:
@@ -19,10 +21,12 @@ public:
 		return m_sprite.getGlobalBounds();
 	}
 	sf::Sprite& getSprite();
+	virtual bool getDeleteFoodOverTime()const { return false; };
+	virtual bool getIsEatenExtra()const { return false; };
 	virtual bool getIsEaten()const;
 	virtual void setIsDead(bool isDead) { m_isDead = isDead; }
 	virtual bool getIsDead() const { return m_isDead; }
-
+	virtual void update(float deltaTime) {};
 	//double dispatch
 	bool checkCollision(const GameObject& other) const;
 
@@ -31,7 +35,7 @@ public:
 	virtual void handleCollision(snakeBody& gameObject) = 0;
 	virtual void handleCollision(Food& gameObject) = 0;
 	virtual void handleCollision(Wall& gameObject) = 0;
-
+	virtual void handleCollision(extraFood& gameObject) = 0;
 
 protected:
 
@@ -40,4 +44,5 @@ protected:
 	sf::Vector2f m_position; // Position of the game object
 
 	bool m_isDead = false;  
+	bool m_overTime = false;//for the extra food, if it is eaten over time
 };
