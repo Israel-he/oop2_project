@@ -8,6 +8,7 @@
 #include "GameOver.h"
 #include "Score.h"
 #include "ReadFromFile.h"
+#include "WinWidow.h"
 
 class Game
 {
@@ -18,6 +19,8 @@ public:
 	void createWindow();
 	void getTexGrassTexture(sf::Texture& texture);
 	void getTexPhotoTexture(sf::Texture& texture);
+	void loadLevel();
+	void nextLel();
 	//void createGameOverWindow();
 	void setTextGameOver();
 	void loadTextures();
@@ -44,6 +47,11 @@ private:
 	GameOver m_gameOver; // חלון סיום המשחק
  
 	ReadFromFile m_readFromFile;
+	std::string m_txtWinWidow = "YOU WON!!";
+	WinWidow m_winWindow; // חלון ניצחון
+	
+	std::vector<std::string> m_levels = { "level1.txt", "level2.txt", "level3.txt" };
+	size_t m_currentLevel = 0;
 
 	//Score
 	Score m_score; // ניהול הניקוד
@@ -51,7 +59,7 @@ private:
 	std::unique_ptr<snake> m_snake; 
 	std::vector<std::unique_ptr<GameObject>> m_walls; // קירות או אובייקטים שאינם נעים
 	std::vector<std::unique_ptr<GameObject>> m_foods; // מזון
-
+	float m_playerSpeed = 0.0f; // מהירות הנחש
 	//Board m_board;  
 	sf::Clock m_clock; 
 	float m_deltaTime = 0.0f;

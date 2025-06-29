@@ -16,7 +16,7 @@ Score::Score()
 void Score::addPoints(int points)
 {
 	score += points;
-	m_text.setString("Score: " + std::to_string(score));
+	m_text.setString("Score: " + std::to_string(score) + " Level: " + std::to_string(m_level));
 }
 //========== getScore ==========
 int Score::getScore() const
@@ -24,11 +24,17 @@ int Score::getScore() const
 	return score;
 }
 
+void Score::setLevel(int level)
+{
+	m_level = level;
+	m_text.setString("Score: " + std::to_string(score) + " Level: " + std::to_string(m_level));
+}
+
 //========== reset ==========
 void Score::reset()
 {
 	score = 0;
-	m_text.setString("Score: " + std::to_string(score));
+	//m_text.setString("Score: " + std::to_string(score) + " Level: " + std::to_string(level));
 }
 
 //========== setPosition ==========

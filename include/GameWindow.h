@@ -1,4 +1,4 @@
-
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
 class GameWindow
@@ -9,7 +9,7 @@ public:
 
 	void createWindow();
 	virtual ~GameWindow() = default;
-	bool isOpen() const;
+	virtual bool isOpen();
 	virtual void draw() = 0;
 	virtual void setText();
 	virtual void createText() = 0;

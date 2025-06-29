@@ -7,6 +7,11 @@
 #include "Food.h"
 #include "snake.h"
 #include "extraFood.h"
+ReadFromFile::ReadFromFile()
+{
+    m_photoTex.loadFromFile("photo.png");
+    m_grassTex.loadFromFile("grass.png");
+}
 ReadFromFile::ReadFromFile(const std::string& filename)
 {
     m_photoTex.loadFromFile("photo.png");

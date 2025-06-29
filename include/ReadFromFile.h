@@ -14,7 +14,7 @@
 class ReadFromFile
 {
 public:
-   
+	ReadFromFile();
     ReadFromFile(const std::string& filename);
     void loadFromFile(const std::string& filename);
 

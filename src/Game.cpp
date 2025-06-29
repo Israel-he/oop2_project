@@ -6,19 +6,20 @@
 //========== Constructor with speed ==========
 Game::Game(float playerSpeed)
     :m_high(600), m_width(800),
-	m_readFromFile("level1.txt"), m_gameOver(m_txtGameOver)
+	m_readFromFile(), m_gameOver(m_txtGameOver), m_playerSpeed(playerSpeed), m_winWindow(m_txtWinWidow)
     
 {
-	 
-	m_snake = m_readFromFile.extractSnake();  
-	m_walls = m_readFromFile.getWalls();
-	m_foods = m_readFromFile.getFood();
-	m_numOfFood = m_foods.size(); // עדכון מספר המזון שנאכל
-    getTexGrassTexture(m_readFromFile.getGrassTexture());
-	getTexPhotoTexture(m_readFromFile.getPhotoTexture());
+    loadLevel();
+	//m_readFromFile.loadFromFile(m_levels[m_currentLevel]); // קריאה מהקובץ של הרמה הנוכחית
+	//m_snake = m_readFromFile.extractSnake();  
+	//m_walls = m_readFromFile.getWalls();
+	//m_foods = m_readFromFile.getFood();
+	//m_numOfFood = m_foods.size(); // עדכון מספר המזון שנאכל
+ //   getTexGrassTexture(m_readFromFile.getGrassTexture());
+	//getTexPhotoTexture(m_readFromFile.getPhotoTexture());
 
-	m_snake->setSpeed(playerSpeed);
-    createWindow();
+	//m_snake->setSpeed(playerSpeed);
+ //   createWindow();
     run();
 }
  
@@ -45,6 +46,57 @@ void Game::getTexGrassTexture(sf::Texture& texture)
 void Game::getTexPhotoTexture(sf::Texture& texture)
 {
     m_PhotoSprite = texture;
+}
+//========== loadLevel ==========
+void Game::loadLevel()
+{
+    m_readFromFile.loadFromFile(m_levels[m_currentLevel]); // קריאה מהקובץ של הרמה הנוכחית
+    m_snake = m_readFromFile.extractSnake();
+    m_walls = m_readFromFile.getWalls();
+    m_foods = m_readFromFile.getFood();
+    m_numOfFood = m_foods.size(); // עדכון מספר המזון שנאכל
+    getTexGrassTexture(m_readFromFile.getGrassTexture());
+    getTexPhotoTexture(m_readFromFile.getPhotoTexture());
+	m_snake->setSpeed(m_playerSpeed); // הגדרת מהירות הנחש
+	m_view.setCenter(m_snake->getPosition()); // עדכון המצלמה למיקום הנחש
+    createWindow();
+	m_score.reset(); // איפוס הניקוד
+	m_score.setLevel(m_currentLevel + 1); // עדכון הרמה בניקוד
+    run();
+}
+//========== nextLel ==========
+void Game::nextLel()
+{
+	m_currentLevel++;
+	if (m_currentLevel < m_levels.size())
+	{
+		m_window.close(); // סגור את החלון הנוכחי
+		loadLevel(); // טען את הרמה הבאה
+	}
+	else
+	{
+        m_winWindow.createWindow(); // יצירת חלון ניצחון
+        m_winWindow.createText();
+        while (m_winWindow.isOpen())
+        {
+            m_window.close(); // סגור את החלון הנוכחי
+         // יצירת הטקסט בחלון ניצחון(); // יצירת הטקסט בחלון ניצחון
+            m_gameOverWindowOpen = false; // עדכון המצב של חלון סיום המשחק
+			sf::Event event;
+			while (m_winWindow.getWindow().pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					m_winWindow.getWindow().close(); // סגירת חלון ניצחון
+					m_gameOverWindowOpen = false; // עדכון המצב של חלון סיום המשחק
+					 
+				}
+			}
+			m_winWindow.draw(); // ציור חלון הניצחון
+        }
+	
+	 
+	}
 }
 
 //========== loadTextures ==========
@@ -80,6 +132,11 @@ void Game::run()
        
         m_snake->move(m_deltaTime);
         handleEndChkCollisions(*m_snake);
+		if (m_score.getScore() >= ID::WIN_SCORE) // אם הניקוד הגיע לניקוד הנדרש לניצחון
+		{
+			nextLel(); // עבור לרמה הבאה
+		}
+	 
         update();
         render();
 		updateEfood(m_deltaTime); // עדכון מזון נוסף

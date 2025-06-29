@@ -4,8 +4,8 @@ class GameOver : public GameWindow
 {
 public:
 	GameOver(std::string& text);
-
-	void draw() override;
-	void createText() override;
+ 
+	virtual void draw() ;
+	virtual void createText();
 	 
 };

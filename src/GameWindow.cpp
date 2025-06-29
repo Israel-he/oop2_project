@@ -13,7 +13,7 @@ void GameWindow::createWindow()
 }
 
 //========== createWindow ==========
-bool GameWindow::isOpen() const
+bool GameWindow::isOpen()  
 {
 	return m_window.isOpen();
 }
